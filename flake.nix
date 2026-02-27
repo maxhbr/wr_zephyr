@@ -36,7 +36,6 @@
                 pkg:
                 builtins.elem (lib.getName pkg) [
                   "segger-jlink"
-                  "STM32CubeProg"
                   "segger-jlink"
                   "nrfutil"
                   "nrfutil-device"
@@ -69,7 +68,6 @@
           };
         inherit (pkgs) lib;
         inherit (pkgs.pkgsi686Linux) SDL2; # for 32-bit libs needed by native_sim
-        STM32CubeProg = pkgs.callPackage ./nix/STM32CubeProg.nix { };
         zephyr-packages = inputs.zephyr-nix.packages.${system};
         zephyr-sdk = zephyr-packages.sdk.override {
           targets = [
@@ -94,7 +92,6 @@
             zephyr-sdk
             zephyr-packages.pythonEnv
             zephyr-packages.hosttools-nix
-            # STM32CubeProg
             SDL2
           ]
           ++ (with pkgs; [
@@ -151,7 +148,7 @@
       in
       {
         packages = {
-          inherit STM32CubeProg zephyr-env;
+          inherit zephyr-env;
         };
         apps = {
           init = {
@@ -161,59 +158,6 @@
           west = {
             type = "app";
             program = "${zephyr-env}/bin/west";
-          };
-          entr-mermaid = {
-            type = "app";
-            program =
-              let
-                entr-mermaid = pkgs.writeShellApplication {
-                  name = "entr-mermaid";
-                  runtimeInputs = with pkgs; [
-                    entr
-                    mermaid-cli
-                  ];
-                  text = builtins.readFile ./scripts/entr-mermaid.sh;
-                };
-              in
-              "${entr-mermaid}/bin/entr-mermaid";
-          };
-          scad-build = {
-            type = "app";
-            program =
-              let
-                scad-build = pkgs.writeShellApplication {
-                  name = "scad-build";
-                  runtimeInputs = with pkgs; [
-                    openscad
-                  ];
-                  text = builtins.readFile ./3d-print.scad/build.sh;
-                };
-              in
-              "${scad-build}/bin/scad-build";
-          };
-
-          slidev = {
-            type = "app";
-            program =
-              let
-                slidevDev = pkgs.writeShellApplication {
-                  name = "slidev-dev";
-                  runtimeInputs = [
-                    pkgs.nodejs_20
-                    pkgs.pnpm
-                  ];
-                  text = ''
-                    set -euo pipefail
-                    if [ -d "$PWD/slidev" ]; then
-                      cd "$PWD/slidev"
-                    else
-                      cd "${./slidev}"
-                    fi
-                    exec pnpm dev -- --host
-                  '';
-                };
-              in
-              "${slidevDev}/bin/slidev-dev";
           };
         };
         formatter =
