@@ -1,5 +1,5 @@
 {
-  description = "My Rail to take macro photos";
+  description = "WR Project";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -144,7 +144,6 @@
           ]);
           text = builtins.readFile ./scripts/init-and-chores.sh;
         };
-        west-commands = import ./nix/flake.west-commands.nix inputs system;
       in
       {
         packages = {
@@ -215,7 +214,6 @@
               zephyr-env
               init-script
             ]
-            ++ west-commands
             ++ enabledPackages;
             shellHook = ''
               ${shellHook}
