@@ -2,11 +2,9 @@
   description = "WR Project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11-small";
 
-    # Customize the version of Zephyr used by the flake here
     zephyr.url = "github:zephyrproject-rtos/zephyr/v4.3.0";
-    # zephyr.url = "github:zephyrproject-rtos/zephyr/9421b826994788e717e7010a46d38b3722bf2c6f"; # commit before gitlint -> gitlint-core change
     zephyr.flake = false;
 
     zephyr-nix.url = "github:nix-community/zephyr-nix";
