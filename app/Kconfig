@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
+source "Kconfig.zephyr"
+
+rsource "../lib/stepper_with_target/Kconfig"

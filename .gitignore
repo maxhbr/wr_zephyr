@@ -1,0 +1,22 @@
+_*
+!_typos.toml
+
+.pre-commit-config.yaml
+
+# build outputs
+build/
+*.build
+build.*
+builds/
+
+# zephyr specific ignores
+/.west/
+/bootloader/
+/modules/
+/tools/
+/zephyr/
+
+stm32cubeprg-lin-*
+
+# temporary file for init.sh
+app/.tmp.west.yml
